@@ -91,10 +91,23 @@ module.exports = grammar({
       "}"
     ),
     // parse use declaration
-    use_decl: $ => seq('use', choice($.use_module, $.use_module_members), ';'),
+    use_decl: $ => seq(choice('use', 'friend'), choice($.use_module, $.use_module_members, $.use_module_without_addr_members), ';'),
 
     // use 0x1::A (as AA);
     use_module: $ => seq($._module_identity, optional(seq('as', field('alias', $._module_identifier)))),
+    // use A::{B, C as CC};
+    use_module_without_addr_members: $ => seq(
+      repeat(
+        choice(
+          field('module', $._module_identifier),
+          '::',
+        )
+      ),
+      choice(
+        field('use_member', $.use_member),
+        seq('{', sepBy1(',', field('use_member', $.use_member)), '}')
+      )
+    ),
     // use 0x1::A::T as TT;
     // use 0x1::A::{B, C as CC};
     use_module_members: $ => seq(
@@ -109,17 +122,14 @@ module.exports = grammar({
       optional(seq('as', field('alias', $.identifier)))
     ),
 
-
-
-    module_definition: $ => {
-      return seq(
-        'module',
-        field('name', $._module_identifier),
-        '{',
-        repeat(field('module_member', $._module_member)),
-        '}'
-      );
-    },
+    module_definition: $ => seq(
+      'module',
+      field('name', $._module_identifier),
+      optional(repeat(seq('::', field('name', $._module_identifier)))),
+      '{',
+      repeat(field('module_member', $._module_member)),
+      '}'
+    ),
     _module_member: $ => choice(
       $.use_decl,
       $.constant,
@@ -156,6 +166,7 @@ module.exports = grammar({
       'struct',
       field('name', $._struct_identifier),
       optional($._type_parameters),
+      optional(seq('has', sepBy1(',', field('has_ident', $._type))))
     ),
 
     _function_definition: $ => choice(

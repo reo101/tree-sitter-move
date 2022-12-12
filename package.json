@@ -6,7 +6,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org"
   },
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "build": "tree-sitter generate",
     "test": "tree-sitter test",
