@@ -184,6 +184,7 @@ module.exports = grammar({
     ),
     _function_signature: $ => seq(
       optional('public'),
+      optional('entry'),
       'fun',
       field('name', $._function_identifier),
       optional($._type_parameters),

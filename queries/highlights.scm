@@ -2,6 +2,7 @@
 (num_literal) @number
 (byte_string_literal) @string
 (hex_string_literal) @string
+(bool_literal) @boolean
 
 (module_identifier) @class @variable @namespace
 (struct_identifier) @struct @variable @type
@@ -87,6 +88,7 @@
 "address" @keyword
 "script" @keyword
 "use" @keyword
+"entry" @keyword
 "friend" @keyword
 "has" @keyword
 "module" @keyword
