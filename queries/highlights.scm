@@ -83,6 +83,23 @@
 (condition_kind) @macro
 (invariant_modifier) @modifier
 
+"(" @punctuation.bracket
+")" @punctuation.bracket
+"[" @punctuation.bracket
+"]" @punctuation.bracket
+"{" @punctuation.bracket
+"}" @punctuation.bracket
+
+(type_arguments
+  "<" @punctuation.bracket
+  ">" @punctuation.bracket)
+
+"::" @punctuation.delimiter
+":" @punctuation.delimiter
+"." @punctuation.delimiter
+"," @punctuation.delimiter
+";" @punctuation.delimiter
+
 "const" @keyword
 "as" @keyword
 "address" @keyword
