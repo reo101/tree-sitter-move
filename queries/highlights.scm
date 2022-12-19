@@ -8,7 +8,7 @@
 (struct_identifier) @struct @variable @type
 (function_identifier) @function
 (variable_identifier) @variable
-(type_parameter_identifier) @typeParameter
+(type_parameter_identifier) @type
 (field_identifier) @property
 (constant_identifier) @property.static.constant
 
@@ -91,6 +91,10 @@
 "}" @punctuation.bracket
 
 (type_arguments
+  "<" @punctuation.bracket
+  ">" @punctuation.bracket)
+
+(type_parameters
   "<" @punctuation.bracket
   ">" @punctuation.bracket)
 

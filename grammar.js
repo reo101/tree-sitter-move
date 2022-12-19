@@ -165,7 +165,7 @@ module.exports = grammar({
       optional(field('resource_modifier', token('resource'))),
       'struct',
       field('name', $._struct_identifier),
-      optional($._type_parameters),
+      optional($.type_parameters),
       optional(seq('has', sepBy1(',', field('has_ident', $._type))))
     ),
 
@@ -187,7 +187,7 @@ module.exports = grammar({
       optional('entry'),
       'fun',
       field('name', $._function_identifier),
-      optional($._type_parameters),
+      optional($.type_parameters),
       field('params', $.func_params),
       optional(seq(':', field('return_type', $._type))),
       optional(field('acquires', $.resource_accquires)),
@@ -220,7 +220,7 @@ module.exports = grammar({
     spec_block_target_schema: $ => seq(
       'schema',
       field('name', $._struct_identifier),
-      optional($._type_parameters),
+      optional($.type_parameters),
     ),
     spec_body: $ => seq(
       '{',
@@ -307,7 +307,7 @@ module.exports = grammar({
     spec_apply_pattern: $ => seq(
       optional(choice('public', 'internal')),
       field('name_pattern', $.spec_apply_name_pattern),
-      optional($._type_parameters),
+      optional($.type_parameters),
     ),
     spec_apply_name_pattern: $ => /[0-9a-zA-Z_*]+/,
 
@@ -321,7 +321,7 @@ module.exports = grammar({
     spec_variable: $ => seq(
       optional(choice('global', 'local')),
       field('name', $.identifier),
-      optional($._type_parameters),
+      optional($.type_parameters),
       ':',
       field('type', $._type),
       ';'
@@ -342,7 +342,7 @@ module.exports = grammar({
     ),
     _spec_function_signature: $ => seq(
       field('name', $._function_identifier),
-      optional($._type_parameters),
+      optional($.type_parameters),
       field('params', $.func_params),
       seq(':', field('return_type', $._type)),
     ),
@@ -421,7 +421,7 @@ module.exports = grammar({
     ),
 
     // type parameter grammar
-    _type_parameters: $ => seq('<', sepBy1(',', field('type_parameter', $.type_parameter)), '>'),
+    type_parameters: $ => seq('<', sepBy1(',', field('type_parameter', $.type_parameter)), '>'),
     type_parameter: $ => seq(
       field('name', $._type_parameter_identifier),
       optional(seq(':', field('kind', choice('copyable', 'resource'))))
