@@ -141,3 +141,4 @@
 "abort" @keyword
 "break" @keyword
 "continue" @keyword
+(mutable_keyword) @keyword

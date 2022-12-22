@@ -4031,6 +4031,10 @@
         ]
       }
     },
+    "mutable_keyword": {
+      "type": "STRING",
+      "value": "mut"
+    },
     "borrow_expression": {
       "type": "PREC",
       "value": 13,
@@ -4038,15 +4042,18 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "STRING",
+            "value": "&"
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "&"
+                "type": "SYMBOL",
+                "name": "mutable_keyword"
               },
               {
-                "type": "STRING",
-                "value": "&mut"
+                "type": "BLANK"
               }
             ]
           },

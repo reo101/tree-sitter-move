@@ -588,8 +588,11 @@ module.exports = grammar({
       field('exp', $._unary_expression),
     )),
     // borrow
+    mutable_keyword: $ => 'mut',
     borrow_expression: $ => prec(PREC.unary, seq(
-      choice('&', '&mut'),
+      '&',
+      optional($.mutable_keyword),
+      // choice('&', '&mut'),
       field('exp', $._unary_expression),
     )),
     // move or copy

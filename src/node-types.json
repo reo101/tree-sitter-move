@@ -626,6 +626,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "mutable_keyword",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2736,6 +2746,10 @@
   {
     "type": "move",
     "named": false
+  },
+  {
+    "type": "mutable_keyword",
+    "named": true
   },
   {
     "type": "native",
