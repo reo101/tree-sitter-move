@@ -141,4 +141,5 @@
 "abort" @keyword
 "break" @keyword
 "continue" @keyword
+"phantom" @keyword
 (mutable_keyword) @keyword

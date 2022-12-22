@@ -1028,8 +1028,8 @@
         ]
       },
       "idx": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "_expression",
@@ -2758,6 +2758,10 @@
   {
     "type": "num_literal",
     "named": true
+  },
+  {
+    "type": "phantom",
+    "named": false
   },
   {
     "type": "pragma",

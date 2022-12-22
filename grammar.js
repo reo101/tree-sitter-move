@@ -184,6 +184,7 @@ module.exports = grammar({
     ),
     _function_signature: $ => seq(
       optional('public'),
+      optional(seq('(', 'friend', ')')),
       optional('entry'),
       'fun',
       field('name', $._function_identifier),
@@ -366,6 +367,7 @@ module.exports = grammar({
       optional(field('type_arguments', $.type_arguments)),
     ),
     ref_type: $ => seq(
+      // field('mutable', choice('&', seq('&', $.mutable_keyword))),
       field('mutable', choice('&', '&mut')),
       $._type
     ),
@@ -423,6 +425,7 @@ module.exports = grammar({
     // type parameter grammar
     type_parameters: $ => seq('<', sepBy1(',', field('type_parameter', $.type_parameter)), '>'),
     type_parameter: $ => seq(
+      optional('phantom'),
       field('name', $._type_parameter_identifier),
       optional(seq(':', field('kind', choice('copyable', 'resource'))))
     ),
@@ -627,6 +630,7 @@ module.exports = grammar({
     ),
     call_expression: $ => seq(
       field('access', $.module_access),
+      optional('!'),
       optional(field('type_arguments', $.type_arguments)),
       field('args', $.arg_list),
     ),
@@ -675,7 +679,7 @@ module.exports = grammar({
       field('e',
         $._expression_term,
       ),
-      '[', field('idx', $._expression), ']'
+      '[', sepBy(',', field('idx', $._expression)), ']'
     )),
 
     /// Expression end
@@ -723,8 +727,7 @@ module.exports = grammar({
       $.bool_literal,
       $.num_literal,
       $.hex_string_literal,
-      $.byte_string_literal,
-
+      $.byte_string_literal
     ),
     address_literal: $ => /0x[a-fA-F0-9]+/,
     bool_literal: $ => choice('true', 'false'),
