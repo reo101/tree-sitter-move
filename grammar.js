@@ -58,6 +58,7 @@ module.exports = grammar({
     [$.function_type_params],
     // [$.name_expression, $.quantifier_expression],
     [$.name_expression, $.call_expression, $.pack_expression],
+    [$.global_literal, $.identifier],
   ],
 
   rules: {
@@ -727,7 +728,8 @@ module.exports = grammar({
       $.bool_literal,
       $.num_literal,
       $.hex_string_literal,
-      $.byte_string_literal
+      $.byte_string_literal,
+      $.global_literal,
     ),
     address_literal: $ => /0x[a-fA-F0-9]+/,
     bool_literal: $ => choice('true', 'false'),
@@ -735,6 +737,7 @@ module.exports = grammar({
     // TODO: tree-sitter not support ".*?"
     hex_string_literal: $ => /x"[0-9a-fA-F]*"/,
     byte_string_literal: $ => /b"(\\.|[^\\"])*"/,
+    global_literal: $ => /[A-Z_][0-9A-Z_]*/,
 
 
     _module_identifier: $ => alias($.identifier, $.module_identifier),

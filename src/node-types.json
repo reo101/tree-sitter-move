@@ -124,6 +124,10 @@
         "named": true
       },
       {
+        "type": "global_literal",
+        "named": true
+      },
+      {
         "type": "hex_string_literal",
         "named": true
       },
@@ -2690,6 +2694,10 @@
   {
     "type": "global",
     "named": false
+  },
+  {
+    "type": "global_literal",
+    "named": true
   },
   {
     "type": "has",

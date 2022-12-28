@@ -3,6 +3,7 @@
 (byte_string_literal) @string
 (hex_string_literal) @string
 (bool_literal) @boolean
+(global_literal) @variable @constant
 
 (module_identifier) @class @variable @namespace
 (struct_identifier) @struct @variable @type

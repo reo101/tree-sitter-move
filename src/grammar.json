@@ -4895,6 +4895,10 @@
         {
           "type": "SYMBOL",
           "name": "byte_string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "global_literal"
         }
       ]
     },
@@ -4926,6 +4930,10 @@
     "byte_string_literal": {
       "type": "PATTERN",
       "value": "b\"(\\\\.|[^\\\\\"])*\""
+    },
+    "global_literal": {
+      "type": "PATTERN",
+      "value": "[A-Z_][0-9A-Z_]*"
     },
     "_module_identifier": {
       "type": "ALIAS",
@@ -5074,6 +5082,10 @@
       "name_expression",
       "call_expression",
       "pack_expression"
+    ],
+    [
+      "global_literal",
+      "identifier"
     ]
   ],
   "precedences": [],
