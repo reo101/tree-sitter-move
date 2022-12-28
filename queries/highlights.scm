@@ -40,6 +40,11 @@
 (call_expression
   (module_access
     (identifier) @function))
+(macro_call_expression
+  (module_access
+    (identifier) @function.macro @exception @ident)
+    "!" @exception
+  )
 (pack_expression
   (module_access
     (identifier) @struct))

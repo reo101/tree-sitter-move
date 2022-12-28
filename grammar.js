@@ -611,6 +611,7 @@ module.exports = grammar({
       $.continue_expression,
       $.name_expression,
       $.call_expression,
+      $.macro_call_expression,
       $.pack_expression,
       $._literal_value,
       $.unit_expression,
@@ -631,7 +632,12 @@ module.exports = grammar({
     ),
     call_expression: $ => seq(
       field('access', $.module_access),
-      optional('!'),
+      optional(field('type_arguments', $.type_arguments)),
+      field('args', $.arg_list),
+    ),
+    macro_call_expression: $ => seq(
+      field('access', $.module_access),
+      '!',
       optional(field('type_arguments', $.type_arguments)),
       field('args', $.arg_list),
     ),

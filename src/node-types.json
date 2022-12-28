@@ -90,6 +90,10 @@
         "named": true
       },
       {
+        "type": "macro_call_expression",
+        "named": true
+      },
+      {
         "type": "name_expression",
         "named": true
       },
@@ -1134,6 +1138,42 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "macro_call_expression",
+    "named": true,
+    "fields": {
+      "access": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "module_access",
+            "named": true
+          }
+        ]
+      },
+      "args": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arg_list",
+            "named": true
+          }
+        ]
+      },
+      "type_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_arguments",
             "named": true
           }
         ]

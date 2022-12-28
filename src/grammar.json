@@ -4156,6 +4156,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "macro_call_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pack_expression"
         },
         {
@@ -4258,13 +4262,42 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "!"
+              "type": "FIELD",
+              "name": "type_arguments",
+              "content": {
+                "type": "SYMBOL",
+                "name": "type_arguments"
+              }
             },
             {
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "SYMBOL",
+            "name": "arg_list"
+          }
+        }
+      ]
+    },
+    "macro_call_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "access",
+          "content": {
+            "type": "SYMBOL",
+            "name": "module_access"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "!"
         },
         {
           "type": "CHOICE",
