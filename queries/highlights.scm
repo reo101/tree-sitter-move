@@ -60,7 +60,7 @@
   (function_parameter
     name: (variable_identifier) @parameter.modification
     type: (ref_type
-            mutable: "&mut")))
+            mutable: ("&") (mutable_keyword))))
 (func_params
   (function_parameter
     name: (variable_identifier) @parameter.readonly

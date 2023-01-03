@@ -1530,7 +1530,7 @@
     "named": true,
     "fields": {
       "mutable": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1538,8 +1538,8 @@
             "named": false
           },
           {
-            "type": "&mut",
-            "named": false
+            "type": "mutable_keyword",
+            "named": true
           }
         ]
       }
@@ -2553,10 +2553,6 @@
   },
   {
     "type": "&",
-    "named": false
-  },
-  {
-    "type": "&mut",
     "named": false
   },
   {
