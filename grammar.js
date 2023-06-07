@@ -184,6 +184,7 @@ module.exports = grammar({
       field('body', $.block)
     ),
     _function_signature: $ => seq(
+      optional('inline'),
       optional('public'),
       optional(seq('(', 'friend', ')')),
       optional('entry'),

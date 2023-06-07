@@ -2756,6 +2756,10 @@
     "named": false
   },
   {
+    "type": "inline",
+    "named": false
+  },
+  {
     "type": "internal",
     "named": false
   },

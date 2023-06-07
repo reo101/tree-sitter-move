@@ -148,4 +148,5 @@
 "break" @keyword
 "continue" @keyword
 "phantom" @keyword
+"inline" @keyword
 (mutable_keyword) @keyword
