@@ -175,6 +175,10 @@ module.exports = grammar({
       $.usual_function_definition,
     ),
     native_function_definition: $ => seq(
+      optional('inline'),
+      optional('public'),
+      optional(seq('(', 'friend', ')')),
+      optional('entry'),
       'native',
       $._function_signature,
       ';'
