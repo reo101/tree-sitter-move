@@ -391,7 +391,7 @@ module.exports = grammar({
       field('member', alias($._reserved_identifier, $.identifier)),
       field('member', $.identifier),
       seq(
-        field('module', $._module_identifier),
+        sepBy1('::', field('module', $._module_identifier)),
         '::',
         field('member', $.identifier)
       ),
