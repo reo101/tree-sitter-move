@@ -97,8 +97,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "use_decl"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "use_decl"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "friend_decl"
+              }
+            ]
           }
         },
         {
@@ -129,17 +138,38 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "STRING",
+          "value": "use"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "use"
+              "type": "SYMBOL",
+              "name": "use_module"
             },
             {
-              "type": "STRING",
-              "value": "friend"
+              "type": "SYMBOL",
+              "name": "use_module_members"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "use_module_without_addr_members"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "friend_decl": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "friend"
         },
         {
           "type": "CHOICE",
@@ -489,6 +519,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "friend_decl"
+        },
+        {
+          "type": "SYMBOL",
           "name": "constant"
         },
         {
@@ -829,8 +863,17 @@
                   "value": "("
                 },
                 {
-                  "type": "STRING",
-                  "value": "friend"
+                  "type": "FIELD",
+                  "name": "friend",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "STRING",
+                      "value": "friend"
+                    },
+                    "named": true,
+                    "value": "friend_param"
+                  }
                 },
                 {
                   "type": "STRING",
@@ -924,8 +967,17 @@
                   "value": "("
                 },
                 {
-                  "type": "STRING",
-                  "value": "friend"
+                  "type": "FIELD",
+                  "name": "friend",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "STRING",
+                      "value": "friend"
+                    },
+                    "named": true,
+                    "value": "friend_param"
+                  }
                 },
                 {
                   "type": "STRING",
@@ -2353,6 +2405,10 @@
         },
         {
           "type": "STRING",
+          "value": "u256"
+        },
+        {
+          "type": "STRING",
           "value": "bool"
         },
         {
@@ -2740,15 +2796,69 @@
                   "type": "FIELD",
                   "name": "kind",
                   "content": {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "copyable"
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": "copy"
+                                },
+                                {
+                                  "type": "STRING",
+                                  "value": "drop"
+                                },
+                                {
+                                  "type": "STRING",
+                                  "value": "store"
+                                },
+                                {
+                                  "type": "STRING",
+                                  "value": "key"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "+"
+                            }
+                          ]
+                        }
                       },
                       {
-                        "type": "STRING",
-                        "value": "resource"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": "copy"
+                              },
+                              {
+                                "type": "STRING",
+                                "value": "drop"
+                              },
+                              {
+                                "type": "STRING",
+                                "value": "store"
+                              },
+                              {
+                                "type": "STRING",
+                                "value": "key"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -5056,7 +5166,7 @@
     },
     "address_literal": {
       "type": "PATTERN",
-      "value": "0x[a-fA-F0-9]+"
+      "value": "@(\\w+|0x[a-fA-F0-9]+)"
     },
     "bool_literal": {
       "type": "CHOICE",
@@ -5073,7 +5183,7 @@
     },
     "num_literal": {
       "type": "PATTERN",
-      "value": "[0-9][0-9]*(?:u8|u64|u128)?"
+      "value": "(0x[0-9a-fA-F_]+|[0-9_][0-9_]*(?:u8|u64|u128|u256)?)"
     },
     "hex_string_literal": {
       "type": "PATTERN",

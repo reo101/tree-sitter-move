@@ -11,30 +11,30 @@
 //          | "+" | "-"
 //          | "*" | "/" | "%"
 const PREC = {
-  assign: 1,
-  implies: 2, // ==>
-  or: 3, // ||
-  and: 4, // &&
-  eq: 5, // ==
-  neq: 5, // !=
-  lt: 5, // <
-  gt: 5, // >
-  le: 5, // <=
-  ge: 5, // >=
-  range: 6, // ..
-  bitor: 7, // |
-  xor: 8, // ^
-  bitand: 9, // &
-  shl: 10, // <<
-  shr: 10, // >>
-  add: 11, // +
-  sub: 11, // -
-  mul: 12, // *
-  div: 12, // /
-  mod: 12, // %,
-  unary: 13,
-  field: 14,
-  call: 15,
+  assign:   1,  // =
+  implies:  2,  // ==>
+  or:       3,  // ||
+  and:      4,  // &&
+  eq:       5,  // ==
+  neq:      5,  // !=
+  lt:       5,  // <
+  gt:       5,  // >
+  le:       5,  // <=
+  ge:       5,  // >=
+  range:    6,  // ..
+  bitor:    7,  // |
+  xor:      8,  // ^
+  bitand:   9,  // &
+  shl:      10, // <<
+  shr:      10, // >>
+  add:      11, // +
+  sub:      11, // -
+  mul:      12, // *
+  div:      12, // /
+  mod:      12, // %,
+  unary:    13,
+  field:    14,
+  call:     15,
 }
 
 module.exports = grammar({
@@ -85,14 +85,20 @@ module.exports = grammar({
     script_block: $ => seq(
       "script",
       "{",
-      repeat($.use_decl),
+      repeat(
+        choice(
+          $.use_decl,
+          $.friend_decl,
+        )
+      ),
       repeat($.constant),
       $.usual_function_definition,
       repeat($.spec_block),
       "}"
     ),
     // parse use declaration
-    use_decl: $ => seq(choice('use', 'friend'), choice($.use_module, $.use_module_members, $.use_module_without_addr_members), ';'),
+    use_decl: $ => seq('use', choice($.use_module, $.use_module_members, $.use_module_without_addr_members), ';'),
+    friend_decl: $ => seq('friend', choice($.use_module, $.use_module_members, $.use_module_without_addr_members), ';'),
 
     // use 0x1::A (as AA);
     use_module: $ => seq($._module_identity, optional(seq('as', field('alias', $._module_identifier)))),
@@ -133,6 +139,7 @@ module.exports = grammar({
     ),
     _module_member: $ => choice(
       $.use_decl,
+      $.friend_decl,
       $.constant,
       $._function_definition,
       $._struct_definition,
@@ -177,7 +184,7 @@ module.exports = grammar({
     native_function_definition: $ => seq(
       optional('inline'),
       optional('public'),
-      optional(seq('(', 'friend', ')')),
+      optional(seq('(', field('friend', alias('friend', $.friend_param)), ')')),
       optional('entry'),
       'native',
       $._function_signature,
@@ -190,7 +197,7 @@ module.exports = grammar({
     _function_signature: $ => seq(
       optional('inline'),
       optional('public'),
-      optional(seq('(', 'friend', ')')),
+      optional(seq('(', field('friend', alias('friend', $.friend_param)), ')')),
       optional('entry'),
       'fun',
       field('name', $._function_identifier),
@@ -381,6 +388,7 @@ module.exports = grammar({
       'u8',
       'u64',
       'u128',
+      'u256',
       'bool',
       'address',
       'signer',
@@ -432,7 +440,7 @@ module.exports = grammar({
     type_parameter: $ => seq(
       optional('phantom'),
       field('name', $._type_parameter_identifier),
-      optional(seq(':', field('kind', choice('copyable', 'resource'))))
+      optional(seq(':', field('kind', sepBy('+', choice('copy', 'drop', 'store', 'key')))))
     ),
 
 
@@ -740,9 +748,9 @@ module.exports = grammar({
       $.byte_string_literal,
       $.global_literal,
     ),
-    address_literal: $ => /0x[a-fA-F0-9]+/,
+    address_literal: $ => /@(\w+|0x[a-fA-F0-9]+)/,
     bool_literal: $ => choice('true', 'false'),
-    num_literal: $ => /[0-9][0-9]*(?:u8|u64|u128)?/,
+    num_literal: $ => /(0x[0-9a-fA-F_]+|[0-9_][0-9_]*(?:u8|u64|u128|u256)?)/,
     // TODO: tree-sitter not support ".*?"
     hex_string_literal: $ => /x"[0-9a-fA-F]*"/,
     byte_string_literal: $ => /b"(\\.|[^\\"])*"/,

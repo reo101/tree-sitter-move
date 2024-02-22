@@ -4,6 +4,7 @@
 (hex_string_literal) @string
 (bool_literal) @boolean
 (global_literal) @variable @constant
+(friend_param) @module
 
 (module_identifier) @class @variable @namespace
 (struct_identifier) @struct @variable @type
@@ -47,10 +48,10 @@
   )
 (pack_expression
   (module_access
-    (identifier) @struct))
+    (identifier) @struct @type))
 (bind_unpack
   (module_access
-    (identifier) @struct))
+    (identifier) @struct @type))
 
 (quantifier_binding
   (identifier) @parameter)
@@ -137,6 +138,9 @@
 "local" @keyword
 "define" @keyword
 "copy" @keyword
+"drop" @keyword
+"key" @keyword
+"store" @keyword
 "move" @keyword
 "let" @keyword
 "if" @keyword
